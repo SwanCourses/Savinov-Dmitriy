@@ -1,6 +1,26 @@
 .container {
-  max-width: 980px;
+  max-width: 1140px;
   width: 100%;
   padding: 15px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.leftColumn
+{
+  flex-shrink:3;
+  flex-grow:3;
+}
+
+.middleColumn
+{
+  flex-shrink:1;
+  flex-grow:1;
+}
+
+.rightColumn
+{
+  flex-shrink:3;
+  flex-grow:3;
 }

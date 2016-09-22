@@ -31,11 +31,10 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
-            title="MERN Starter - Blog App"
-            titleTemplate="%s - Blog App"
+            title="Index - Savinov React App"
+            titleTemplate="%s - Savinov React App"
             meta={[
               { charset: 'utf-8' },
               {
@@ -54,9 +53,12 @@ export class App extends Component {
             toggleAddPost={this.toggleAddPostSection}
           />
           <div className={styles.container}>
-            {this.props.children}
+            <div className={styles["leftColumn"]}></div>
+            <div className={styles["middleColumn"]}>
+              {this.props.children}
+            </div>
+            <div className={styles["rightColumn"]}></div>
           </div>
-          <Footer />
         </div>
       </div>
     );
