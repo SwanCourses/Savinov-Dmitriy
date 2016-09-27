@@ -2,8 +2,11 @@ import Express from 'express';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import products from './routes/product.routes';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+
+import { createDir } from  './util/fs-helpers';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -50,12 +53,17 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   dummyData();
 });
 
+//Init directories
+createDir(path.resolve(__dirname, '../' + serverConfig.UPLOADS_DIR));
+
 // Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
+app.use('/uploads', Express.static(path.resolve(__dirname, '../uploads')));
 app.use('/api', posts);
+app.use('/api', products);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
