@@ -16,25 +16,29 @@ const sizes = ['XS','S','M','L','XL'];
 class ProductFormPage extends Component {
   constructor(props){
       super(props);
-      this.state = {};
+      this.state = { colors: {'color_1': '#ffffff', 'color_2': 'black'}};
   }
 
   onAddColor = () => {
-    var colors = this.state.colors;
-    colors.push("");
+    let colors = this.state.colors;
+    let index = Object.keys(colors).length;
+    while("color_" + index in colors) {
+      index++;
+    }
+    colors["color_" + index] = "";
     this.setState({colors: colors});
   };
 
   onChangeColor = (e) => {
     let colors = this.state.colors;
-    colors[e.target.name.charAt(0)] = e.target.value;
-    this.setState({colors: colors});
+    colors[e.target.name] = e.target.value;
+    this.setState({ colors: colors });
   };
 
   onRemoveColor = (e) =>
   {
     let colors = this.state.colors;
-    colors.splice(e.target.name.charAt(0), 1);
+    delete colors[e.target.value];
     this.setState({colors: colors});
   };
 
@@ -50,8 +54,12 @@ class ProductFormPage extends Component {
     form.append('product[price]', this.state.price);
     form.append('product[description]', this.state.description);
     form.append('product[size]', this.state.size);
-
-    form.append('product[photos]', this.refs.photos.files, this.refs.photos.files.name);
+    for(let i = 0; i < this.refs.photos.files.length; i++) {
+      form.append('product[photos]', this.refs.photos.files[i], this.refs.photos.files[i].name)
+    }
+    for(let i = 0; i < this.state.colors.length; i++) {
+      form.append('product[colors]', this.state.colors[i]);
+    }
 
     this.props.dispatch(addProductRequest(form))
   };
@@ -68,7 +76,7 @@ class ProductFormPage extends Component {
           <input placeholder={this.props.intl.messages.productPrice} value={this.state.price} onChange={this.onChange}
                  className={styles['form-field']} name="price"
                  type="number"/>
-          <select name="size" value={this.state.size} onChange={this.onChange}>
+          <select name="size" className={styles['cbx-sizes']} value={this.state.size} onChange={this.onChange}>
             <option disabled>{this.props.intl.messages.productSize}</option>
             {
               sizes.map(function(size) {
@@ -80,11 +88,11 @@ class ProductFormPage extends Component {
                     onChange={this.onChange}
                     className={styles['form-field']}
                     name="description"/>
-          <div className={styles.photos}>
+          <AddColor colors={this.state.colors} onColorChange={this.onChangeColor} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
+          <div className={styles['photos-upload']}>
             <input ref="photos" type="file" multiple onChange={this.onChange}/>
           </div>
-          <AddColor colors={this.state.colors} onColorChange={this.onChangeColor} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
-          <a className={styles['post-submit-button']} href="#" onClick={this.addProduct}><FormattedMessage id="submit"/></a>
+          <div><a className={styles['post-submit-button']} href="#" onClick={this.addProduct}><FormattedMessage id="submit"/></a></div>
         </div>
       </div>
     )
@@ -92,17 +100,19 @@ class ProductFormPage extends Component {
 }
 
 function AddColor(props){
-  return (
-    <div>
-      {props.colors.map((item, i) => {
-        return (
-          <div key={"colorItem_" + i}>
-            <input type="text" onChange={props.onChangeColor} name={"txt-color_" + i } value={item}/>
-            <input type="button" onClick={props.onRemoveColor} name={"btn-remove-color_" + i}/>
+        let colors =[];
+        Object.keys(props.colors).forEach(function(key) {
+          colors.push(
+          <div>
+            <input type="text" className={styles['txt-color-item']} onChange={props.onChangeColor} name={key} value={props.colors[key]}/>
+            <button className={styles['btn-remove-color']} onClick={props.onRemoveColor} name={"btn-remove-" + key} value={key}> - </button>
           </div>);
-      })}
-      <input type="button" className={styles['btn-add-color']} onClick={props.onAddColor}/>
-    </div>
+      })
+  return (
+  <div>
+    { colors }
+    <input type="button" className={styles['btn-add-color']} onClick={props.onAddColor} value="add color"/>
+  </div>
   );
 }
 

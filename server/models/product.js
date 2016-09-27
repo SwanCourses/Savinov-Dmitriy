@@ -13,7 +13,7 @@ const productSchema = new Schema({
   price: { type: 'Number', required: true },
   size: {type: 'String', required: true},
   photos: [],
-  colors: []
+  colors: {type: 'Object'},
 });
 
 export default mongoose.model('Product', productSchema);
