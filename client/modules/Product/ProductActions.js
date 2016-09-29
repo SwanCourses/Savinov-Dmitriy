@@ -7,7 +7,7 @@ import callApi, { callApiForm } from '../../util/apiCaller';
 export const ADD_PRODUCTS = 'ADD_PRODUCTS';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
-export const SET_CATEGORY = 'SET_CATEGORY';
+export const SET_GROUP = 'SET_GROUP';
 
 export function addProducts(products) {
   return {
@@ -29,10 +29,10 @@ export function setSearchQuery(searchQuery) {
   };
 }
 
-export function setCategory(category) {
+export function setGroup(group) {
   return {
-    type: SET_CATEGORY,
-    category,
+    type: SET_GROUP,
+    group,
   };
 }
 

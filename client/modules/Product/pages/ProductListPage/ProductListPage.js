@@ -11,7 +11,7 @@ import styles from './ProductListPage.css';
 // Import Selectors
 import { getProducts } from '../../ProductReducer';
 import { setSearchQuery } from '../../ProductActions';
-import { setCategory } from '../../ProductActions';
+import { setGroup } from '../../ProductActions';
 
 class ProductListPage extends Component {
   constructor(props) {
@@ -32,11 +32,11 @@ class ProductListPage extends Component {
                  onChange={e=>this.props.dispatch(setSearchQuery(e.target.value))}/>
         </div>
         <div className={styles['products-menu']}>
-          <a href="#" onClick={e=>this.props.dispatch(setCategory('Male'))} className={styles['menu-item']}>Male</a>
-          <a href="#" onClick={e=>this.props.dispatch(setCategory('Female'))} className={styles['menu-item']}>Female</a>
-          <a href="#" onClick={e=>this.props.dispatch(setCategory('Kids'))} className={styles['menu-item']}>Kids</a>
-          <a href="#" onClick={e=>this.props.dispatch(setCategory('Unisex'))} className={styles['menu-item']}>Unisex</a>
-          <a href="#" onClick={e=>this.props.dispatch(setCategory(''))} className={styles['menu-item']}>All</a>
+          <a href="#" onClick={e=>this.props.dispatch(setGroup('Male'))} className={styles['menu-item']}>Male</a>
+          <a href="#" onClick={e=>this.props.dispatch(setGroup('Female'))} className={styles['menu-item']}>Female</a>
+          <a href="#" onClick={e=>this.props.dispatch(setGroup('Kids'))} className={styles['menu-item']}>Kids</a>
+          <a href="#" onClick={e=>this.props.dispatch(setGroup('Unisex'))} className={styles['menu-item']}>Unisex</a>
+          <a href="#" onClick={e=>this.props.dispatch(setGroup(''))} className={styles['menu-item']}>All</a>
         </div>
 
         <div className={styles.products}>
@@ -58,8 +58,8 @@ class ProductListPage extends Component {
 function mapStateToProps(state) {
   return {
     searchQuery: state.products.searchQuery,
-    category: state.products.category,
-    products: getProducts(state, state.products.searchQuery, state.products.category),
+    group: state.products.group,
+    products: getProducts(state, state.products.searchQuery, state.products.group),
   };
 }
 

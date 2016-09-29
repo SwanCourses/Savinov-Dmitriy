@@ -12,7 +12,7 @@ import { addProductRequest }from '../../ProductActions';
 import  styles from './ProductFormPage.css'
 
 const sizes = ['XS','S','M','L','XL'];
-const categories = ['Male','Female','Kids','Unisex'];
+const groups = ['Male','Female','Kids','Unisex'];
 
 class ProductFormPage extends Component {
   constructor(props){
@@ -58,7 +58,7 @@ class ProductFormPage extends Component {
     form.append('product[price]', this.state.price);
     form.append('product[description]', this.state.description);
     form.append('product[size]', this.state.size);
-    form.append('product[category]', this.state.category);
+    form.append('product[group]', this.state.group);
     console.log(this.state.size );
     for(let i = 0; i < this.refs.photos.files.length; i++) {
       form.append('product[photos]', this.refs.photos.files[i], this.refs.photos.files[i].name)
@@ -89,11 +89,11 @@ console.log("YEAH!");
               })
             }
           </select>
-          <select name="category" className={styles['cbx-categories']} value={this.state.category} onChange={this.onChange}>
+          <select name="group" className={styles['cbx-groups']} value={this.state.group} onChange={this.onChange}>
             <option disabled>{this.props.intl.messages.productSize}</option>
             {
-              categories.map(function(category) {
-                return <option key={"product_category_" + category} value={category}>{category}</option>;
+              groups.map(function(group) {
+                return <option key={"product_group_" + group} value={group}>{group}</option>;
               })
             }
           </select>

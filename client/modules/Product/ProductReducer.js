@@ -2,10 +2,10 @@
  * Created by Freem_000 on 9/26/2016.
  */
 
-import { ADD_PRODUCT, ADD_PRODUCTS, SET_SEARCH_QUERY, SET_CATEGORY} from './ProductActions';
+import { ADD_PRODUCT, ADD_PRODUCTS, SET_SEARCH_QUERY, SET_GROUP} from './ProductActions';
 
 // Initial State
-const initialState = { data: [], searchQuery: '', category: '' };
+const initialState = { data: [], searchQuery: '', group: '' };
 
 const ProductReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -28,10 +28,10 @@ const ProductReducer = (state = initialState, action) => {
         searchQuery: action.searchQuery
       };
 
-    case SET_CATEGORY:
+    case SET_GROUP:
       return {
         ...state,
-        category: action.category
+        group: action.group
       };
 
     default:
@@ -42,11 +42,11 @@ const ProductReducer = (state = initialState, action) => {
 /* Selectors */
 
 // Get all products
-export const getProducts = (state, name = '', category = '') => {
+export const getProducts = (state, name = '', group = '') => {
   let result = state.products.data;
   name = name.trim();
-  category = category.trim();
-  result = category === '' ? result : state.products.data.filter(product =>  `${product.category}`.indexOf(category) > -1);
+  group = group.trim();
+  result = group === '' ? result : state.products.data.filter(product =>  `${product.group}`.indexOf(group) > -1);
   result = name === '' ? result : state.products.data.filter(product =>  `${product.name} ${product.price}`.indexOf(name) > -1);
 
   return result;
