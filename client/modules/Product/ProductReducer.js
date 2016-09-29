@@ -43,14 +43,9 @@ const ProductReducer = (state = initialState, action) => {
 
 // Get all products
 export const getProducts = (state, name = '', group = '') => {
-  let result = state.products.data;
   name = name.trim();
   group = group.trim();
-  result = group === '' ? result : state.products.data.filter(product =>  `${product.group}`.indexOf(group) > -1);
-  result = name === '' ? result : state.products.data.filter(product =>  `${product.name} ${product.price}`.indexOf(name) > -1);
-
-  return result;
-
+  return (name === '') ? (group === '') ? state.products.data : state.products.data.filter(product => `${product.group}` === group) : (group === '') ? state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1) : state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1 && `${product.group}` === group);
 };
 
 // Get product by cuid

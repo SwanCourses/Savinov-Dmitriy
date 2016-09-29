@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductListItem from '../../components/ProductListItem/ProductListItem';
 
+const groups = ['Male','Female','Kids','Unisex'];
+
 import styles from './ProductListPage.css';
 
 // Import Selectors
@@ -32,10 +34,11 @@ class ProductListPage extends Component {
                  onChange={e=>this.props.dispatch(setSearchQuery(e.target.value))}/>
         </div>
         <div className={styles['products-menu']}>
-          <a href="#" onClick={e=>this.props.dispatch(setGroup('Male'))} className={styles['menu-item']}>Male</a>
-          <a href="#" onClick={e=>this.props.dispatch(setGroup('Female'))} className={styles['menu-item']}>Female</a>
-          <a href="#" onClick={e=>this.props.dispatch(setGroup('Kids'))} className={styles['menu-item']}>Kids</a>
-          <a href="#" onClick={e=>this.props.dispatch(setGroup('Unisex'))} className={styles['menu-item']}>Unisex</a>
+          {
+            groups.map(function(group) {
+              return <a href="#" onClick={e=> this.props.dispatch(setGroup(group))} className={styles['menu-item']}>{group}</a>
+            }, this)
+          }
           <a href="#" onClick={e=>this.props.dispatch(setGroup(''))} className={styles['menu-item']}>All</a>
         </div>
 
