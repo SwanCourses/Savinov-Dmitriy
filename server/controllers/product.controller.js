@@ -16,8 +16,9 @@ export function getProducts(req, res) {
   Product.find().sort('name').exec((err, products) => {
     if (err) {
       res.status(500).send(err);
+    }else {
+      res.json({products});
     }
-    res.json({ products });
   });
 }
 
@@ -25,27 +26,16 @@ export function addProduct(req, res) {
   if (!req.body.product.name || !req.body.product.code || !req.body.product.price || !req.body.product.description) {
     res.status(403).end();
   } else {
-
     const newProduct = new Product(req.body.product);
-
     // Let's sanitize inputs
     newProduct.code = sanitizeHtml(newProduct.code);
     newProduct.name = sanitizeHtml(newProduct.name);
     newProduct.description = sanitizeHtml(newProduct.description);
-    newProduct.size = sanitizeHtml(newProduct.size);
-
     newProduct.cuid = cuid();
     for (let i = 0, file; file = req.files[i]; i++) {
       newProduct.photos.push({ fileName: sanitizeHtml(file.filename) })
     }
-
-    let colors = newProduct.colors;
-    newProduct.colors = [];
-
-    for(let i = 0; i < colors.length; i++){
-      newProduct.colors.push(sanitizeHtml(colors[i]));
-    }
-
+    newProduct.colors = JSON.parse(newProduct.colors);
     newProduct.save().then((saved)=> {
       res.json({ product: saved })
     }).catch((err) => {

@@ -33,28 +33,33 @@
   float: right;
 }
 
-.language-switcher {
+.header-menu {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.language-switcher-body {
+.header-menu-body {
   list-style: none;
   max-width: 1140px;
   margin: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: flex-end;
 }
 
-.language-switcher-body div {
+.header-menu-body div {
   margin: 10px;
   padding: 5px;
   cursor: pointer;
   color: #fff;
 }
 
-.language-switcher-body:first-child {
+.language-switcher{
+  flex-shrink:2;
+  flex-grow:2;
+  text-align: right;
+}
+
+.header-menu-body:first-child {
   color: rgba(255, 255, 255, 0.7);
 }
 

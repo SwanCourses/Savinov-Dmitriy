@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+}
+
+.container .products {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.container .products .product {
+  margin-bottom: 20px;
+}
+
+.container .filter-panel {
+  width: 300px;
+}
+
+.product{
+
+}
+
+.products-menu {
+  flex-shrink:2;
+  flex-grow:2;
+}
+
+.menu-item{
+  margin: 10px 20px;
+  color: rgba(0, 145, 234, 0.7);
+  font-weight: bold;
+  text-decoration: none;
+}
