@@ -12,6 +12,7 @@ import { addProductRequest }from '../../ProductActions';
 import  styles from './ProductFormPage.css'
 
 const sizes = ['XS','S','M','L','XL'];
+const groups = ['Male','Female','Kids','Unisex'];
 
 class ProductFormPage extends Component {
   constructor(props){
@@ -30,6 +31,7 @@ class ProductFormPage extends Component {
   };
 
   onChangeColor = (e) => {
+    console.log(e.target.name);
     let colors = this.state.colors;
     colors[e.target.name] = e.target.value;
     this.setState({ colors: colors });
@@ -43,6 +45,8 @@ class ProductFormPage extends Component {
   };
 
   onChange = (e)=> {
+    console.log(e.target.name );
+    console.log(e.target.value );
     this.setState({[e.target.name]: e.target.value });
   };
 
@@ -54,13 +58,14 @@ class ProductFormPage extends Component {
     form.append('product[price]', this.state.price);
     form.append('product[description]', this.state.description);
     form.append('product[size]', this.state.size);
+    form.append('product[group]', this.state.group);
+    console.log(this.state.size );
     for(let i = 0; i < this.refs.photos.files.length; i++) {
       form.append('product[photos]', this.refs.photos.files[i], this.refs.photos.files[i].name)
     }
-    for(let i = 0; i < this.state.colors.length; i++) {
-      form.append('product[colors]', this.state.colors[i]);
-    }
+    form.append('product[colors]', JSON.stringify(this.state.colors));
 
+console.log("YEAH!");
     this.props.dispatch(addProductRequest(form))
   };
 
@@ -84,11 +89,19 @@ class ProductFormPage extends Component {
               })
             }
           </select>
+          <select name="group" className={styles['cbx-groups']} value={this.state.group} onChange={this.onChange}>
+            <option disabled>{this.props.intl.messages.productSize}</option>
+            {
+              groups.map(function(group) {
+                return <option key={"product_group_" + group} value={group}>{group}</option>;
+              })
+            }
+          </select>
           <textarea placeholder={this.props.intl.messages.productDescription} value={this.state.description}
                     onChange={this.onChange}
                     className={styles['form-field']}
                     name="description"/>
-          <AddColor colors={this.state.colors} onColorChange={this.onChangeColor} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
+          <AddColor colors={this.state.colors} onChangeColor={this.onChangeColor} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
           <div className={styles['photos-upload']}>
             <input ref="photos" type="file" multiple onChange={this.onChange}/>
           </div>

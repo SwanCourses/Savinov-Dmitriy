@@ -19,7 +19,7 @@
   color: #757575;
 }
 
-.form-field, .cbx-sizes{
+.form-field, .cbx-sizes, .cbx-groups{
   width: 100%;
   margin-bottom: 16px;
   font-family: 'Lato', sans-serif;
@@ -58,7 +58,7 @@ textarea {
   margin-bottom: 20px;
 }
 
-.photos-upload, .cbx-sizes{
+.photos-upload, .cbx-sizes, .cbx-groups{
   margin-bottom: 20px;
   cursor: pointer;
 }
