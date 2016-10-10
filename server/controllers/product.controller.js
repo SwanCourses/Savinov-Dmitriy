@@ -32,12 +32,19 @@ export function addProduct(req, res) {
     newProduct.name = sanitizeHtml(newProduct.name);
     newProduct.description = sanitizeHtml(newProduct.description);
     newProduct.cuid = cuid();
-    for (let i = 0, file; file = req.files[i]; i++) {
-      newProduct.photos.push({ fileName: sanitizeHtml(file.filename) })
-    }
-    newProduct.colors = JSON.parse(newProduct.colors);
+    let colors = newProduct.colors = JSON.parse(newProduct.colors);
+    let i = 0;
+    Object.keys(colors).forEach(function(key) {
+      newProduct.colors[key].color = sanitizeHtml(newProduct.colors[key].color);
+      for(let j = 0, file; file = colors[key].photos[j]; j++) {
+        console.log(req.files);
+        newProduct.colors[key].photos[j].filename = req.files[i].filename;
+        newProduct.photos.push({ fileName: req.files[i].filename});
+        i++;
+      }
+    });
     newProduct.save().then((saved)=> {
-      res.json({ product: saved })
+      res.json({ product: saved });
     }).catch((err) => {
       res.status(500).send(err);
     });
