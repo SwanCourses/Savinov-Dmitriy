@@ -17,7 +17,7 @@ const groups = ['Male','Female','Kids','Unisex'];
 class ProductFormPage extends Component {
   constructor(props){
       super(props);
-      this.state = { colors: {'color_1': '#ffffff', 'color_2': 'black'}};
+      this.state = { colors: {'color_1': {color: '#ffffff', photos: []}, 'color_2': {color: 'black', photos: []}}};
   }
 
   onAddColor = () => {
@@ -26,14 +26,19 @@ class ProductFormPage extends Component {
     while("color_" + index in colors) {
       index++;
     }
-    colors["color_" + index] = "";
+    colors["color_" + index] = {color: "", photos: []};
     this.setState({colors: colors});
   };
 
   onChangeColor = (e) => {
-    console.log(e.target.name);
     let colors = this.state.colors;
-    colors[e.target.name] = e.target.value;
+    colors[e.target.name].color = e.target.value;
+    this.setState({ colors: colors });
+  };
+
+  onChangeColorPhotos = (e) => {
+    var colors = this.state.colors;
+    colors[e.target.name].photos = e.target.files;
     this.setState({ colors: colors });
   };
 
@@ -45,8 +50,6 @@ class ProductFormPage extends Component {
   };
 
   onChange = (e)=> {
-    console.log(e.target.name );
-    console.log(e.target.value );
     this.setState({[e.target.name]: e.target.value });
   };
 
@@ -59,13 +62,20 @@ class ProductFormPage extends Component {
     form.append('product[description]', this.state.description);
     form.append('product[size]', this.state.size);
     form.append('product[group]', this.state.group);
-    console.log(this.state.size );
-    for(let i = 0; i < this.refs.photos.files.length; i++) {
-      form.append('product[photos]', this.refs.photos.files[i], this.refs.photos.files[i].name)
-    }
+
     form.append('product[colors]', JSON.stringify(this.state.colors));
 
-console.log("YEAH!");
+    console.log(this.state.size );
+    let colors = this.state.colors;
+    Object.keys(colors).forEach(function(key) {
+      console.log(colors[key].photos);
+      for (let i = 0; i < colors[key].photos.length; i++) {
+        console.log(colors[key].photos[i]);
+        console.log(colors[key].photos[i].name);
+        form.append('product[photos]', colors[key].photos[i], colors[key].photos[i].color)
+      }
+    });
+
     this.props.dispatch(addProductRequest(form))
   };
 
@@ -101,10 +111,7 @@ console.log("YEAH!");
                     onChange={this.onChange}
                     className={styles['form-field']}
                     name="description"/>
-          <AddColor colors={this.state.colors} onChangeColor={this.onChangeColor} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
-          <div className={styles['photos-upload']}>
-            <input ref="photos" type="file" multiple onChange={this.onChange}/>
-          </div>
+          <AddColor colors={this.state.colors} onChangeColor={this.onChangeColor} onChangeColorPhotos={this.onChangeColorPhotos} onRemoveColor={this.onRemoveColor} onAddColor={this.onAddColor} />
           <div><a className={styles['post-submit-button']} href="#" onClick={this.addProduct}><FormattedMessage id="submit"/></a></div>
         </div>
       </div>
@@ -117,8 +124,11 @@ function AddColor(props){
         Object.keys(props.colors).forEach(function(key) {
           colors.push(
           <div>
-            <input type="text" className={styles['txt-color-item']} onChange={props.onChangeColor} name={key} value={props.colors[key]}/>
+            <input type="text" className={styles['txt-color-item']} onChange={props.onChangeColor} name={key} value={props.colors[key].color}/>
             <button className={styles['btn-remove-color']} onClick={props.onRemoveColor} name={"btn-remove-" + key} value={key}> - </button>
+            <div className={styles['photos-upload']}>
+              <input name={key} type="file" multiple onChange={props.onChangeColorPhotos}/>
+            </div>
           </div>);
       })
   return (

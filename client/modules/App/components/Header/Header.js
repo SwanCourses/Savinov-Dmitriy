@@ -12,6 +12,7 @@ export function Header(props, context) {
 
   return (
     <div className={styles.header}>
+      <Link to="/products">Products</Link>
       <div className={styles['header-menu']}>
         <div className={styles['header-menu-body']}>
           <div className={styles['language-switcher']}><FormattedMessage id="switchLanguage" /></div>

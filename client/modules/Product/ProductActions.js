@@ -4,6 +4,7 @@
 
 import callApi, { callApiForm } from '../../util/apiCaller';
 
+import { browserHistory } from 'react-router';
 export const ADD_PRODUCTS = 'ADD_PRODUCTS';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -38,8 +39,11 @@ export function setGroup(group) {
 
 export function addProductRequest(form) {
   return (dispatch) => {
-    return callApiForm('products', 'post', form).then(res => dispatch(addProduct(res.product)));
-  };
+    return callApiForm('products', 'post', form).then(res => {
+      dispatch(addProduct(res.product));
+      browserHistory.push('/products/' + res.product.cuid)
+    });
+  }
 }
 
 export function fetchProducts() {

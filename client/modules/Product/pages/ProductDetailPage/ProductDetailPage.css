@@ -1,0 +1,62 @@
+.container .product .photos .picture {
+  width: 150px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 5px;
+
+}
+
+.btn-color{
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 18px;
+  color: #FFF;
+  background: #03A9F4;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container .product .photos .picture img {
+  height: auto;
+  max-width: 100%;
+}
+
+.container.photos {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1 60%;
+}
+.photos {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  flex-direction: column;
+  flex: 1;
+}
+
+.container .filter-panel {
+  width: 300px;
+}
+
+.container {
+  display: flex;
+}
+.container .product .info {
+  flex: 1 80%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+}
+
+.colors {
+  display: flex;
+  flex-flow: row wrap;
+}
+
