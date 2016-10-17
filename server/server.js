@@ -3,6 +3,7 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import products from './routes/product.routes';
+import categories from './routes/category.routes';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
@@ -64,6 +65,7 @@ app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use('/uploads', Express.static(path.resolve(__dirname, '../uploads')));
 app.use('/api', posts);
 app.use('/api', products);
+app.use('/api', categories);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

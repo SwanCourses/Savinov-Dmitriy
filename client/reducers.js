@@ -2,6 +2,7 @@
  * Root Reducer
  */
 import { combineReducers } from 'redux';
+import categories from './modules/Category/CategoryReducer';
 
 // Import Reducers
 import app from './modules/App/AppReducer';
@@ -15,4 +16,5 @@ export default combineReducers({
   posts,
   products,
   intl,
+  categories
 });

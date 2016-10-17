@@ -13,6 +13,7 @@ import Footer from './components/Footer/Footer';
 // Import Actions
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
+import { fetchCategories } from '../Category/CategoryActions';
 
 export class App extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(fetchCategories());
     this.setState({isMounted: true}); // eslint-disable-line
   }
 
@@ -64,6 +66,10 @@ export class App extends Component {
     );
   }
 }
+
+App.need = [() => {
+  return fetchCategories();
+}];
 
 App.propTypes = {
   children: PropTypes.object.isRequired,
