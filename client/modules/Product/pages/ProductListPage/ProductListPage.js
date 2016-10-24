@@ -36,8 +36,8 @@ class ProductListPage extends Component {
   };
 
   onGroupSelect = (e) => {
-    this.setState({"group": e.target.name });
-    this.props.dispatch(setGroup(e.target.name));
+    this.setState({"group": e.target.data });
+    this.props.dispatch(setGroup(e.target.data));
   };
 
   render() {
@@ -52,10 +52,10 @@ class ProductListPage extends Component {
         <div className={styles['products-menu']}>
           {
             groups.map(function(group) {
-              return <a href="#" onClick={this.onGroupSelect} name={group} className={styles['menu-item']}>{group}</a>
+              return <a href="#" onClick={this.onGroupSelect} data={group} className={styles['menu-item']}>{group}</a>
             }, this)
           }
-          <a href="#" onClick={this.onGroupSelect} name={''} className={styles['menu-item']}>All</a>
+          <a href="#" onClick={this.onGroupSelect} data={''} className={styles['menu-item']}>All</a>
         </div>
 
         <div className={styles.products}>

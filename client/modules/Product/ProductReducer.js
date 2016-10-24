@@ -56,10 +56,7 @@ export const getProducts = (state, name = '', group = '', category = '') => {
   if (name === '' && group === '' && category === '') {
     return state.products.data
   }  else if (name === '' ){
-    if (category === '' && group === '')
-    {
-      return state.products.data;
-    }else if(category === '')
+    if(category === '')
     {
       return state.products.data.filter(product => product.group === group)
     }else if(group === '')
@@ -67,10 +64,7 @@ export const getProducts = (state, name = '', group = '', category = '') => {
       return state.products.data.filter(product => product.category === category)
     }
   }else if (group === '' ){
-    if (category === '' && name === '')
-    {
-      return state.products.data;
-    }else if(category === '')
+    if(category === '')
     {
       return state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1)
     }else if(name === '')
@@ -78,10 +72,7 @@ export const getProducts = (state, name = '', group = '', category = '') => {
       return state.products.data.filter(product => product.category === category)
     }
   }else if (category === '' ){
-    if (group === '' && name === '')
-    {
-      return state.products.data;
-    }else if(group === '')
+    if(group === '')
     {
       return state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1)
     }else if(name === '')

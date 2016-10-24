@@ -18,7 +18,7 @@ const groups = ['Male','Female','Kids','Unisex'];
 class ProductFormPage extends Component {
   constructor(props){
       super(props);
-      this.state = { colors: {'color_1': {color: '#ffffff', photos: []}, 'color_2': {color: 'black', photos: []}}, categories: this.props.categories.map(category => {return {value: category.cuid, label: category.name}})};
+      this.state = { colors: {'color_1': {color: '#ffffff', photos: []}, 'color_2': {color: 'black', photos: []}}};
   console.log(this.state.categories);
   }
 
@@ -107,7 +107,7 @@ class ProductFormPage extends Component {
             <option disabled>Category</option>
             {
               this.state.categories.map(function(category) {
-                return <option key={"product_group_" + category.label} value={category.value}>{category.label}</option>;
+                return <option key={"product_category_" + category.label} value={category.value}>{category.label}</option>;
               })
             }
           </select>
