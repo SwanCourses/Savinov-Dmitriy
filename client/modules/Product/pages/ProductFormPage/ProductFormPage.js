@@ -8,6 +8,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 import { addProductRequest }from '../../ProductActions';
+import { getAllCategories } from '../../../Category/CategoryReducer';
 
 import  styles from './ProductFormPage.css'
 
@@ -18,6 +19,7 @@ class ProductFormPage extends Component {
   constructor(props){
       super(props);
       this.state = { colors: {'color_1': {color: '#ffffff', photos: []}, 'color_2': {color: 'black', photos: []}}};
+  console.log(this.state.categories);
   }
 
   onAddColor = () => {
@@ -61,6 +63,7 @@ class ProductFormPage extends Component {
     form.append('product[price]', this.state.price);
     form.append('product[description]', this.state.description);
     form.append('product[size]', this.state.size);
+    form.append('product[category]', this.state.category);
     form.append('product[group]', this.state.group);
 
     form.append('product[colors]', JSON.stringify(this.state.colors));
@@ -99,6 +102,16 @@ class ProductFormPage extends Component {
               })
             }
           </select>
+
+          <select name="category" className={styles['cbx-categories']} value={this.state.category} onChange={this.onChange}>
+            <option disabled>Category</option>
+            {
+              this.state.categories.map(function(category) {
+                return <option key={"product_category_" + category.label} value={category.value}>{category.label}</option>;
+              })
+            }
+          </select>
+
           <select name="group" className={styles['cbx-groups']} value={this.state.group} onChange={this.onChange}>
             <option disabled>{this.props.intl.messages.productSize}</option>
             {
@@ -143,8 +156,10 @@ ProductFormPage.propTypes = {
   intl: intlShape.isRequired,
 };
 
-function mapStateToProps(state, props) {
-  return {};
+function mapStateToProps(state) {
+  return {
+    categories: getAllCategories(state)
+  };
 }
 
 export default connect(mapStateToProps)(injectIntl(ProductFormPage));

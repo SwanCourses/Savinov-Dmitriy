@@ -2,10 +2,10 @@
  * Created by Freem_000 on 9/26/2016.
  */
 
-import { ADD_PRODUCT, ADD_PRODUCTS, SET_SEARCH_QUERY, SET_GROUP} from './ProductActions';
+import { ADD_PRODUCT, ADD_PRODUCTS, SET_SEARCH_QUERY, SET_GROUP, SET_CATEGORY} from './ProductActions';
 
 // Initial State
-const initialState = { data: [], searchQuery: '', group: '' };
+const initialState = { data: [], searchQuery: '', group: '', category: '' };
 
 const ProductReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -30,8 +30,14 @@ const ProductReducer = (state = initialState, action) => {
 
     case SET_GROUP:
       return {
-        ...state,
-        group: action.group
+          ...state,
+          group: action.group
+      };
+
+    case SET_CATEGORY:
+      return{
+          ...state,
+        category: action.category
       };
 
     default:
@@ -42,10 +48,40 @@ const ProductReducer = (state = initialState, action) => {
 /* Selectors */
 
 // Get all products
-export const getProducts = (state, name = '', group = '') => {
+export const getProducts = (state, name = '', group = '', category = '') => {
   name = name.trim();
   group = group.trim();
-  return (name === '') ? (group === '') ? state.products.data : state.products.data.filter(product => `${product.group}` === group) : (group === '') ? state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1) : state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1 && `${product.group}` === group);
+  category = category.trim();
+
+  if (name === '' && group === '' && category === '') {
+    return state.products.data
+  }  else if (name === '' ){
+    if(category === '')
+    {
+      return state.products.data.filter(product => product.group === group)
+    }else if(group === '')
+    {
+      return state.products.data.filter(product => product.category === category)
+    }
+  }else if (group === '' ){
+    if(category === '')
+    {
+      return state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1)
+    }else if(name === '')
+    {
+      return state.products.data.filter(product => product.category === category)
+    }
+  }else if (category === '' ){
+    if(group === '')
+    {
+      return state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1)
+    }else if(name === '')
+    {
+      return state.products.data.filter(product => product.group === group)
+    }
+  } else {
+    return state.products.data.filter(product => `${product.name} ${product.price}`.indexOf(name) > -1 && product.group === group && product.category === category)
+  }
 };
 
 // Get product by cuid
